@@ -5,11 +5,6 @@ from models import storage
 from models.state import State
 from api.v1.views import app_views
 
-all_states = storage.all('State')
-states = []
-
-for state in all_states.values():
-    states.append(state.to_dict())
 
 
 @app_views.route('/states', methods=['GET', 'POST'], strict_slashes=False)
@@ -26,6 +21,11 @@ def get_states():
         state.save()
         return jsonify(state.to_dict()), 201
 
+    all_states = storage.all('State')
+    states = []
+
+    for state in all_states.values():
+        states.append(state.to_dict())
     return jsonify(states)
 
 
