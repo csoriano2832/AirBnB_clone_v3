@@ -36,7 +36,7 @@ def get_places(city_id=None):
 
     for place in all_places:
         places.append(place.to_dict())
-    return jsonify(places)
+    return jsonify(places), 200
 
 
 @app_views.route('/places/<place_id>', methods=['GET', 'DELETE', 'PUT'],
