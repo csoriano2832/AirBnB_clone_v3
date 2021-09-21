@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """ This module handles the HTTP methods of a city object"""
-from flask import jsonify, abort, request
+from flask import jsonify, abort, request, Response
 from models import storage
 from models.state import State
 from models.city import City
@@ -18,11 +18,12 @@ def get_cities(state_id=None):
     if request.method == 'POST':
         data = request.get_json()
         if not data:
-            abort(400, 'Not a JSON')
+            return Response("Not a JSON", 400)
         if 'name' not in data:
-            abort(400, 'Missing name')
+            return Response("Missing name", 400)
         city = City(name=data.get('name'), state_id=state.id)
         city.save()
+        return jsonify(city.to_dict()), 201
 
     all_cities = storage.all('City')
     cities = []
@@ -49,7 +50,7 @@ def get_city(city_id=None):
     if request.method == 'PUT':
         data = request.get_json()
         if not data:
-            abort(400, 'Not a JSON')
+            return Response("Not a JSON", 400)
         data['id'] = city.id
         data['created_at'] = city.created_at
         data['state_id'] = city.state_id
