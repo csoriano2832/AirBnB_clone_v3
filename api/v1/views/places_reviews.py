@@ -8,7 +8,7 @@ from models.review import Review
 from api.v1.views import app_views
 
 
-@app_views.route('/place/<place_id>/reviews', methods=['GET', 'POST'],
+@app_views.route('/places/<place_id>/reviews', methods=['GET', 'POST'],
                  strict_slashes=False)
 def get_reviews(place_id=None):
     """ Handles HTTP request of all the review objects """
