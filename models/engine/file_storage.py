@@ -72,7 +72,8 @@ class FileStorage:
 
     def get(self, cls, id):
         """
-        Searches for an object by ID, returns if found if not returns None
+        Searches for an object by ID, returns the object if found
+        if not returns None
         """
         if cls not in classes.values():
             return None
@@ -85,7 +86,7 @@ class FileStorage:
 
     def count(self, cls=None):
         """
-        finds the length of objects stored
+        Finds the length of objects stored
         """
         every_class = classes.values()
 
