@@ -23,6 +23,7 @@ def get_cities(state_id=None):
             abort(400, 'Missing name')
         city = City(name=data.get('name'), state_id=state.id)
         city.save()
+	return jsonify(city.to_dict()), 201
 
     all_cities = storage.all('City')
     cities = []
