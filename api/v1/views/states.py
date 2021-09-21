@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-""" This module handles the HTTP methods of a state object"""
+""" This module handles the HTTP methods of a state object """
 from flask import jsonify, abort, request, Response
 from models import storage
 from models.state import State
