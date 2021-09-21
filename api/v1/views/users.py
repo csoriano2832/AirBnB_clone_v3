@@ -1,15 +1,9 @@
 #!/usr/bin/python3
 """ This module handles the HTTP methods of a user object"""
-from flask import jsonify, abort, request
+from flask import jsonify, abort, request, Response
 from models import storage
 from models.user import User
 from api.v1.views import app_views
-
-all_users = storage.all('User')
-users = []
-
-for user in all_users.values():
-    users.append(user.to_dict())
 
 
 @app_views.route('/users', methods=['GET', 'POST'], strict_slashes=False)
@@ -19,15 +13,20 @@ def get_users():
     if request.method == 'POST':
         data = request.get_json()
         if not data:
-            abort(400, 'Not a JSON')
+            return Response("Not a JSON", 400)
         if 'email' not in data:
-            abort(400, 'Missing email')
+            return Response("Missing email", 400)
         if 'password' not in data:
-            abort(400, 'Missing password')
+            return Response("Missing password", 400)
         user = User(email=data.get('email'), password=data.get('password'))
         user.save()
         return jsonify(user.to_dict()), 201
 
+    all_users = storage.all('User')
+    users = []
+
+    for user in all_users.values():
+        users.append(user.to_dict())
     return jsonify(users)
 
 
@@ -47,7 +46,7 @@ def get_user(user_id=None):
     elif request.method == 'PUT':
         data = request.get_json()
         if not data:
-            abort(400, 'Not a JSON')
+            return Response("Not a JSON", 400)
         data['id'] = user.id
         data['email'] = user.email
         data['created_at'] = user.created_at
