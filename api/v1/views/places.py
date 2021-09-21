@@ -24,7 +24,7 @@ def get_places(city_id=None):
             return Response("Missing user_id", 400)
         if 'name' not in data:
             return Response("Missing name", 400)
-        user = storage.get(User, data.user_id)
+        user = storage.get(User, data.get('user_id'))
         if not user:
             abort(404)
         place = Place(city_id=city.id, user_id=user.id, name=data.get('name'))
