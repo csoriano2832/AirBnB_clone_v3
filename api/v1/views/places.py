@@ -57,10 +57,11 @@ def get_place(place_id=None):
         if not data:
             return Response("Not a JSON", 400)
         data['id'] = place.id
+        data['user_id'] = place.user_id
+        data['city_id'] = place.city_id
         data['created_at'] = place.created_at
-        data['state_id'] = place.state_id
         place.__init__(**data)
         place.save()
         return jsonify(place.to_dict()), 200
 
-    return jsonify(place.to_dict())
+    return jsonify(place.to_dict()), 200
