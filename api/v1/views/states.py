@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """ This module handles the HTTP methods of a state object"""
-from flask import jsonify, abort, request
+from flask import jsonify, abort, request, Response
 from models import storage
 from models.state import State
 from api.v1.views import app_views
@@ -19,9 +19,9 @@ def get_states():
     if request.method == 'POST':
         data = request.get_json()
         if not data:
-            abort(400, 'Not a JSON')
+            return Response("Not a JSON", 400)
         if 'name' not in data:
-            abort(400, 'Missing name')
+            return Response("Missing name", 400)
         state = State(name=data.get('name'))
         state.save()
         return jsonify(state.to_dict()), 201
@@ -45,7 +45,7 @@ def get_state(state_id=None):
     if request.method == 'PUT':
         data = request.get_json()
         if not data:
-            abort(400, 'Not a JSON')
+            return Response("Not a JSON", 400)
         data['id'] = state.id
         data['created_at'] = state.created_at
         state.__init__(**data)
