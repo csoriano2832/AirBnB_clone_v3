@@ -15,7 +15,7 @@ def get_amenities():
         if not data:
             return Response("Not a JSON", 400)
         if 'name' not in data:
-            return Response("Missing name". 400)
+            return Response("Missing name", 400)
         amenity = Amenity(name=data.get('name'))
         amenity.save()
         return jsonify(amenity.to_dict()), 201
