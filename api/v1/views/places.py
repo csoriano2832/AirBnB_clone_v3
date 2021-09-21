@@ -29,14 +29,13 @@ def get_places(city_id=None):
             abort(404)
         place = Place(city_id=city.id, user_id=user.id, name=data.get('name'))
         place.save()
-    return jsonify(place.to_dict()), 201
+        return jsonify(place.to_dict()), 201
 
-    all_places = storage.all('Place')
+    all_places = city.places
     places = []
 
-    for place in all_places.values():
-        if place.city_id == city.id:
-            places.append(place.to_dict())
+    for place in all_places:
+        places.append(place.to_dict())
     return jsonify(places)
 
 
